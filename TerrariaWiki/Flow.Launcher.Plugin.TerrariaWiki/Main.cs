@@ -8,6 +8,8 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
     {
         private PluginInitContext _context;
 
+        private readonly string base_url = "https://en.cppreference.com";
+
         public void Init(PluginInitContext context)
         {
             _context = context;
