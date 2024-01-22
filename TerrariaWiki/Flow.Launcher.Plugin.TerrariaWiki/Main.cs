@@ -5,10 +5,12 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Security.Policy;
 using Flow.Launcher.Plugin.SharedCommands;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Flow.Launcher.Plugin.TerrariaWiki
 {
-    public class TerrariaWiki : IPlugin
+    public class TerrariaWiki : IAsyncPlugin
     {
         private PluginInitContext _context;
 
@@ -17,14 +19,14 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
 
         private readonly string icon_path = "icon.png";
 
-        public void Init(PluginInitContext context)
+        public async Task InitAsync(PluginInitContext context)
         {
             query_url = base_url + "api.php?action=query&list=search&srwhat=text&format=json&srsearch=";
 
             _context = context;
         }
 
-        public List<Result> Query(Query query)
+        public Task<List<Result>> QueryAsync(Query query, CancellationToken token)
         {
 
             string finalUrl = base_url + "wiki/" + query.Search;
