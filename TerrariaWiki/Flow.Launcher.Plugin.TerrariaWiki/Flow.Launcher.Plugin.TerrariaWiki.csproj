@@ -25,7 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Flow.Launcher.Plugin" Version="4.1.0" />
+    <PackageReference Include="Flow.Launcher.Plugin" Version="4.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>
