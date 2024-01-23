@@ -1,12 +1,10 @@
-using Flow.Launcher.Plugin;
-using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Security.Policy;
-using Flow.Launcher.Plugin.SharedCommands;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using Flow.Launcher.Plugin.SharedCommands;
+using System.Net.Http;
+using System;
 
 namespace Flow.Launcher.Plugin.TerrariaWiki
 {
@@ -16,6 +14,8 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
 
         private readonly string base_url = "https://terraria.fandom.com/";
         private string query_url;
+        private string jsonResult;
+        private string finalUrl;
 
         private readonly string icon_path = "icon.png";
 
@@ -26,25 +26,50 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
             _context = context;
         }
 
-        public Task<List<Result>> QueryAsync(Query query, CancellationToken token)
+        public async Task<List<Result>> QueryAsync(Query query, CancellationToken token)
         {
-            string finalUrl = base_url + "wiki/" + query.Search;
-            
-            var results = new List<Result>();
-
-            results.Add(new Result
+            using(var httpClient = new HttpClient())
             {
-                Title = "`Search Terraria wiki",
-                SubTitle = $" {query_url + query.Search}",
-                Action = e =>
+                jsonResult = await httpClient.GetStringAsync(query_url + query.Search);
+            }
+
+            dynamic data = JObject.Parse(jsonResult);
+            JObject dataObj = JObject.Parse(jsonResult);
+
+            if (dataObj.ContainsKey("error"))
+            {
+                var noResults = new List<Result>
                 {
-                    finalUrl.OpenInBrowserTab();
-                    return true;
-                },
-                IcoPath = "icon.png"
-            });
-            return Task.FromResult(results);
-            //return new Task<List<Result>> { result };
+                    new Result
+                    {
+                        Title = $"Start typing to search the wiki...",
+                        IcoPath = "icon.png"
+                    }
+                };
+                return await Task.FromResult(noResults);
+            }
+            else
+            {
+                var results = new List<Result>();
+                
+                foreach (var item in data.query.search)
+                {
+                    results.Add(new Result
+                    {
+                        Title = $"{item.title}",
+                        SubTitle = $"https://terraria.fandom.com/wiki/" + item.title,
+                        Action = e =>
+                        {
+                            finalUrl = base_url + "wiki/" + item.title;
+                            finalUrl.OpenInBrowserTab();
+                            return true;
+                        },
+                        IcoPath = "icon.png"
+                    });
+                }
+
+                return await Task.FromResult(results);
+            }
         }
     }
 }
