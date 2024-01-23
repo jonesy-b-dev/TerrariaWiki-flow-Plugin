@@ -1,24 +1,26 @@
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
 using Flow.Launcher.Plugin.SharedCommands;
-using System.Net.Http;
-using System;
+using Newtonsoft.Json.Linq;
 
 namespace Flow.Launcher.Plugin.TerrariaWiki
 {
     public class TerrariaWiki : IAsyncPlugin
     {
         private PluginInitContext _context;
-
+       
+        // Define variabkes for the plugin to use
         private readonly string base_url = "https://terraria.fandom.com/";
         private string query_url;
         private string jsonResult;
         private string finalUrl;
 
+        // Path to icon
         private readonly string icon_path = "icon.png";
 
+        // Initialine query url
         public async Task InitAsync(PluginInitContext context)
         {
             query_url = base_url + "api.php?action=query&list=search&srwhat=text&format=json&srsearch=";
@@ -28,16 +30,21 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
 
         public async Task<List<Result>> QueryAsync(Query query, CancellationToken token)
         {
-            using(var httpClient = new HttpClient())
+            // Make request to terraria wiki api with the query the user has put in
+            using (var httpClient = new HttpClient())
             {
                 jsonResult = await httpClient.GetStringAsync(query_url + query.Search);
             }
 
+            // Store the daya
             dynamic data = JObject.Parse(jsonResult);
+            // Also store as a JObject so we can check if it contains the error key
             JObject dataObj = JObject.Parse(jsonResult);
 
+            // Check if the data has error key (happens when the user has not given an input yet)
             if (dataObj.ContainsKey("error"))
             {
+                // Make simple result 
                 var noResults = new List<Result>
                 {
                     new Result
@@ -51,7 +58,8 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
             else
             {
                 var results = new List<Result>();
-                
+
+                // Loop over all the results and make a result item for them all
                 foreach (var item in data.query.search)
                 {
                     results.Add(new Result
@@ -60,6 +68,7 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
                         SubTitle = $"https://terraria.fandom.com/wiki/" + item.title,
                         Action = e =>
                         {
+                            // Make final url to search
                             finalUrl = base_url + "wiki/" + item.title;
                             finalUrl.OpenInBrowserTab();
                             return true;
@@ -67,7 +76,7 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
                         IcoPath = "icon.png"
                     });
                 }
-
+                // Return the results
                 return await Task.FromResult(results);
             }
         }
