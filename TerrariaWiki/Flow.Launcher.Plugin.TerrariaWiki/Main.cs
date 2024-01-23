@@ -28,21 +28,23 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
 
         public Task<List<Result>> QueryAsync(Query query, CancellationToken token)
         {
-
             string finalUrl = base_url + "wiki/" + query.Search;
+            
+            var results = new List<Result>();
 
-            var result = new Result
+            results.Add(new Result
             {
                 Title = "`Search Terraria wiki",
-                SubTitle = $" {query_url+  query.Search}",
+                SubTitle = $" {query_url + query.Search}",
                 Action = e =>
                 {
                     finalUrl.OpenInBrowserTab();
                     return true;
                 },
                 IcoPath = "icon.png"
-            };
-            return new List<Result>() { result };
+            });
+            return Task.FromResult(results);
+            //return new Task<List<Result>> { result };
         }
     }
 }
