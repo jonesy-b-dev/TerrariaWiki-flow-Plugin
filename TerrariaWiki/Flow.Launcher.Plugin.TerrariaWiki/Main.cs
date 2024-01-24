@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Flow.Launcher.Plugin.SharedCommands;
@@ -62,14 +63,17 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
                 // Loop over all the results and make a result item for them all
                 foreach (var item in data.query.search)
                 {
+                    string itemStr = item.title;
+                    string itemWithunderscores = itemStr.Replace(" ", "_");
+
                     results.Add(new Result
                     {
                         Title = $"{item.title}",
-                        SubTitle = $"https://terraria.fandom.com/wiki/" + item.title,
+                        SubTitle = $"https://terraria.fandom.com/wiki/" + itemWithunderscores,
                         Action = e =>
                         {
                             // Make final url to search
-                            finalUrl = base_url + "wiki/" + item.title;
+                            finalUrl = base_url + "wiki/" + itemWithunderscores;
                             finalUrl.OpenInBrowserTab();
                             return true;
                         },
