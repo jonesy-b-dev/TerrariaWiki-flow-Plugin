@@ -4,9 +4,9 @@
     "Name": "TerrariaWiki",
     "Description": "Plugin to search the Terraria wiki with",
     "Author": "jonesy-b-dev",
-    "Version": "1.0",
+    "Version": "1.1",
     "Language": "csharp",
-    "Website": "https://github.com/jonesy-b-dev/Flow.Launcher.Plugin.TerrariaWiki",
+    "Website": "https://github.com/jonesy-b-dev/TerrariaWiki-flow-Plugin",
     "IcoPath": "icon.png",
     "ExecuteFileName": "Flow.Launcher.Plugin.TerrariaWiki.dll"
 }
