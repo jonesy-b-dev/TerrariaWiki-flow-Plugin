@@ -7,5 +7,10 @@ Example:
 ## Contributing
 Contribution is possible, just make a pull request with your changes!
 
+## Change log
+### Version 2.0
+* Changed wiki from Fandom.com to Wiki.gg
+* Fixed spelling mistake in code comment
+
 ## To Do
-* Cleaning up
+* Add option to choose between the Fandom.com wiki and the Wiki.gg wiki

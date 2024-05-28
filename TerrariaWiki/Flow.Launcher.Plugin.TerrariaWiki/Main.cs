@@ -13,7 +13,7 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
         private PluginInitContext _context;
        
         // Define variabkes for the plugin to use
-        private readonly string base_url = "https://terraria.fandom.com/";
+        private readonly string base_url = "https://terraria.wiki.gg/";
         private string query_url;
         private string jsonResult;
         private string finalUrl;
@@ -21,7 +21,7 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
         // Path to icon
         private readonly string icon_path = "icon.png";
 
-        // Initialine query url
+        // Initialise query url
         public async Task InitAsync(PluginInitContext context)
         {
             query_url = base_url + "api.php?action=query&list=search&srwhat=text&format=json&srsearch=";
@@ -69,7 +69,7 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
                     results.Add(new Result
                     {
                         Title = $"{item.title}",
-                        SubTitle = $"https://terraria.fandom.com/wiki/" + itemWithunderscores,
+                        SubTitle = base_url + "wiki/" + itemWithunderscores,
                         Action = e =>
                         {
                             // Make final url to search
