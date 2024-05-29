@@ -11,9 +11,12 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
     public class TerrariaWiki : IAsyncPlugin
     {
         private PluginInitContext _context;
-       
+
         // Define variabkes for the plugin to use
-        private readonly string base_url = "https://terraria.wiki.gg/";
+        static private string fandomUrl = "https://terraria.fandom.com";
+        static private string wikiggUrl = "https://terraria.wiki.gg/";
+        static bool useFandom = false;
+        private string base_url;
         private string query_url;
         private string jsonResult;
         private string finalUrl;
@@ -24,6 +27,8 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
         // Initialise query url
         public async Task InitAsync(PluginInitContext context)
         {
+            base_url = useFandom ? fandomUrl : wikiggUrl;
+
             query_url = base_url + "api.php?action=query&list=search&srwhat=text&format=json&srsearch=";
 
             _context = context;
