@@ -18,9 +18,8 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
         // Define variabkes for the plugin to use
         static private string fandomUrl = "https://terraria.fandom.com";
         static private string wikiggUrl = "https://terraria.wiki.gg/";
-        static bool useFandom = false;
-        private string base_url;
-        private string query_url;
+        private string BaseUrl => _settings.useFandom ? fandomUrl : wikiggUrl;
+        private string QueryUrl => BaseUrl + "api.php?action=query&list=search&srwhat=text&format=json&srsearch=";
         private string jsonResult;
         private string finalUrl;
 
@@ -30,11 +29,8 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
         // Initialise query url
         public async Task InitAsync(PluginInitContext context)
         {
-            base_url = useFandom ? fandomUrl : wikiggUrl;
-
-            query_url = base_url + "api.php?action=query&list=search&srwhat=text&format=json&srsearch=";
-
             _context = context;
+            _settings = _context.API.LoadSettingJsonStorage<Settings>();
         }
 
         public async Task<List<Result>> QueryAsync(Query query, CancellationToken token)
@@ -42,7 +38,7 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
             // Make request to terraria wiki api with the query the user has put in
             using (var httpClient = new HttpClient())
             {
-                jsonResult = await httpClient.GetStringAsync(query_url + query.Search);
+                jsonResult = await httpClient.GetStringAsync(QueryUrl + query.Search);
             }
 
             // Store the daya
@@ -77,11 +73,11 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
                     results.Add(new Result
                     {
                         Title = $"{item.title}",
-                        SubTitle = base_url + "wiki/" + itemWithunderscores,
+                        SubTitle = BaseUrl + "wiki/" + itemWithunderscores,
                         Action = e =>
                         {
                             // Make final url to search
-                            finalUrl = base_url + "wiki/" + itemWithunderscores;
+                            finalUrl = BaseUrl + "wiki/" + itemWithunderscores;
                             finalUrl.OpenInBrowserTab();
                             return true;
                         },

@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Height="100"
+    DataContext="{Binding RelativeSource={RelativeSource Self}, Path=_settings}"
     d:DesignHeight="300"
     d:DesignWidth="500"
     mc:Ignorable="d">
@@ -15,6 +16,7 @@
         </Grid.RowDefinitions>
         <CheckBox
             Grid.Row="0"
-            Padding="8,0,0,0"/>
+            Padding="8,0,0,0"
+            IsChecked="{Binding useFandom}"/>
     </Grid>
 </UserControl>
