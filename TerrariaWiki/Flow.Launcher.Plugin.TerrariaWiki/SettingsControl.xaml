@@ -9,7 +9,7 @@
     d:DesignHeight="300"
     d:DesignWidth="500"
     mc:Ignorable="d">
-    <Grid Margin="40,40,10,0">
+    <Grid Margin="40,30,10,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition />
@@ -17,6 +17,7 @@
         <CheckBox
             Grid.Row="0"
             Padding="8,0,0,0"
+            Content="Use Fandom instead of wiki.gg"
             IsChecked="{Binding useFandom}"/>
     </Grid>
 </UserControl>
