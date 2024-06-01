@@ -8,12 +8,12 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
 {
     public partial class SettingsControl 
     {
-        public Settings _settings;
+        public Settings _settings { get; }
 
         public SettingsControl(Settings settings)
         {
-            InitializeComponent();
             _settings = settings;
+            InitializeComponent();
         }
     }
 }
