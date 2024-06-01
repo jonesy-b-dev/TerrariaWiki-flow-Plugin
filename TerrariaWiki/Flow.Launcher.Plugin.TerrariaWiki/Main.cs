@@ -1,16 +1,19 @@
 using System.Collections.Generic;
+using Flow.Launcher.Plugin;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using Flow.Launcher.Plugin.SharedCommands;
 using Newtonsoft.Json.Linq;
 
 namespace Flow.Launcher.Plugin.TerrariaWiki
 {
-    public class TerrariaWiki : IAsyncPlugin
+    public class TerrariaWiki : IAsyncPlugin, ISettingProvider, IContextMenu
     {
         private PluginInitContext _context;
+        private Settings _settings;
 
         // Define variabkes for the plugin to use
         static private string fandomUrl = "https://terraria.fandom.com";
@@ -88,6 +91,17 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
                 // Return the results
                 return await Task.FromResult(results);
             }
+        }
+        public Control CreateSettingPanel() => new SettingsControl(_settings);
+
+        public List<Result> LoadContextMenus(Result selectedResult)
+        {
+            var results = new List<Result>
+            {
+
+            };
+
+            return results;
         }
     }
 }
