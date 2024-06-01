@@ -16,7 +16,7 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
         private Settings _settings;
 
         // Define variabkes for the plugin to use
-        static private string fandomUrl = "https://terraria.fandom.com";
+        static private string fandomUrl = "https://terraria.fandom.com/";
         static private string wikiggUrl = "https://terraria.wiki.gg/";
         private string BaseUrl => _settings.useFandom ? fandomUrl : wikiggUrl;
         private string QueryUrl => BaseUrl + "api.php?action=query&list=search&srwhat=text&format=json&srsearch=";
