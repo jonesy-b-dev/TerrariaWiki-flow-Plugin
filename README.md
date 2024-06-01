@@ -6,8 +6,12 @@ Example:
 
 ## Contributing
 Contribution is possible, just make a pull request with your changes!
+Thanks to [Yusyuriv](https://github.com/Yusyuriv) for the contributions! 
 
 ## Change log
+### Version 3.0
+* Added setting to choose between using the Wiki.gg or Fandom.com wiki.
+
 ### Version 2.1
 * Updated preview video in README.md
 * Fixed wrong description in the README.md
@@ -18,4 +22,4 @@ Contribution is possible, just make a pull request with your changes!
 * Fixed spelling mistake in code comment
 
 ## To Do
-* Add option to choose between the Fandom.com wiki and the Wiki.gg wiki
+* Nothing for now
