@@ -1,20 +1,25 @@
 using System.Collections.Generic;
+using Flow.Launcher.Plugin;
 using System.Net.Http;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using Flow.Launcher.Plugin.SharedCommands;
 using Newtonsoft.Json.Linq;
 
 namespace Flow.Launcher.Plugin.TerrariaWiki
 {
-    public class TerrariaWiki : IAsyncPlugin
+    public class TerrariaWiki : IAsyncPlugin, ISettingProvider, IContextMenu
     {
         private PluginInitContext _context;
-       
+        private Settings _settings;
+
         // Define variabkes for the plugin to use
-        private readonly string base_url = "https://terraria.wiki.gg/";
-        private string query_url;
+        static private string fandomUrl = "https://terraria.fandom.com/";
+        static private string wikiggUrl = "https://terraria.wiki.gg/";
+        private string BaseUrl => _settings.useFandom ? fandomUrl : wikiggUrl;
+        private string QueryUrl => BaseUrl + "api.php?action=query&list=search&srwhat=text&format=json&srsearch=";
         private string jsonResult;
         private string finalUrl;
 
@@ -24,9 +29,8 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
         // Initialise query url
         public async Task InitAsync(PluginInitContext context)
         {
-            query_url = base_url + "api.php?action=query&list=search&srwhat=text&format=json&srsearch=";
-
             _context = context;
+            _settings = _context.API.LoadSettingJsonStorage<Settings>();
         }
 
         public async Task<List<Result>> QueryAsync(Query query, CancellationToken token)
@@ -34,7 +38,7 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
             // Make request to terraria wiki api with the query the user has put in
             using (var httpClient = new HttpClient())
             {
-                jsonResult = await httpClient.GetStringAsync(query_url + query.Search);
+                jsonResult = await httpClient.GetStringAsync(QueryUrl + query.Search);
             }
 
             // Store the daya
@@ -69,11 +73,11 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
                     results.Add(new Result
                     {
                         Title = $"{item.title}",
-                        SubTitle = base_url + "wiki/" + itemWithunderscores,
+                        SubTitle = BaseUrl + "wiki/" + itemWithunderscores,
                         Action = e =>
                         {
                             // Make final url to search
-                            finalUrl = base_url + "wiki/" + itemWithunderscores;
+                            finalUrl = BaseUrl + "wiki/" + itemWithunderscores;
                             finalUrl.OpenInBrowserTab();
                             return true;
                         },
@@ -83,6 +87,17 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
                 // Return the results
                 return await Task.FromResult(results);
             }
+        }
+        public Control CreateSettingPanel() => new SettingsControl(_settings);
+
+        public List<Result> LoadContextMenus(Result selectedResult)
+        {
+            var results = new List<Result>
+            {
+
+            };
+
+            return results;
         }
     }
 }
