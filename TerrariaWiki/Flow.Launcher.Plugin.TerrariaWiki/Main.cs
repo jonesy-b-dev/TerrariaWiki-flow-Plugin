@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Flow.Launcher.Plugin;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
         private PluginInitContext _context;
         private Settings _settings;
 
-        // Define variabkes for the plugin to use
+        // Define variables for the plugin to use
         static private string fandomUrl = "https://terraria.fandom.com/";
         static private string wikiggUrl = "https://terraria.wiki.gg/";
         private string BaseUrl => _settings.useFandom ? fandomUrl : wikiggUrl;
@@ -38,10 +39,12 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
             // Make request to terraria wiki api with the query the user has put in
             using (var httpClient = new HttpClient())
             {
+                // Set headers to mimic a browser request
+                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
                 jsonResult = await httpClient.GetStringAsync(QueryUrl + query.Search);
             }
 
-            // Store the daya
+            // Store the data
             dynamic data = JObject.Parse(jsonResult);
             // Also store as a JObject so we can check if it contains the error key
             JObject dataObj = JObject.Parse(jsonResult);
