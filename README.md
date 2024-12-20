@@ -1,14 +1,20 @@
 # TerrariaWiki-flow-Plugin
-A [Flow launcher](https://github.com/Flow-Launcher/Flow.Launcher) plugin to search the [Terraria Wiki.gg](https://terraria.wiki.gg/wiki/Terraria_Wiki) with.
+A [Flow launcher](https://github.com/Flow-Launcher/Flow.Launcher) plugin to search the [Terraria Wiki.gg](https://terraria.wiki.gg/wiki/Terraria_Wiki) with. (Fandom also supported)
 
 Example:
 ![TerrariaWikiPluginPreview](https://github.com/jonesy-b-dev/TerrariaWiki-flow-Plugin/assets/59418915/6640f6d1-7f51-42c5-a82f-69b0d482a7fb)
 
 ## Contributing
 Contribution is possible, just make a pull request with your changes!
+
 Thanks to [Yusyuriv](https://github.com/Yusyuriv) for the contributions! 
 
 ## Change log
+### Version 3.1
+* Fixed wiki.gg not working
+* Updated README.md
+* Fixed some spelling in comments
+
 ### Version 3.0
 * Added setting to choose between using the Wiki.gg or Fandom.com wiki.
 
