@@ -40,7 +40,11 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
             using (var httpClient = new HttpClient())
             {
                 // Set headers to mimic a browser request
-                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36");
+                httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
+                    "AppleWebKit/537.36 (KHTML, like Gecko) " +
+                    "Chrome/127.0.0.0 Safari/537.36"
+                );
                 jsonResult = await httpClient.GetStringAsync(QueryUrl + query.Search);
             }
 
