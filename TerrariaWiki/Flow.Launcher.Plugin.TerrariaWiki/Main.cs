@@ -41,7 +41,7 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
             {
                 // Set headers to mimic a browser request and identify the application
                 httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(
-                    "TerrariaWikiFlowPlugin/3.2 (https://github.com/inb4banishment/TerrariaWiki-flow-Plugin)"
+                    "TerrariaWikiFlowPlugin (https://github.com/jonesy-b-dev/TerrariaWiki-flow-Plugin)"
                 );
                 httpClient.DefaultRequestHeaders.Referrer = new System.Uri("https://terraria.wiki.gg/");
                 jsonResult = await httpClient.GetStringAsync(QueryUrl + query.Search);
