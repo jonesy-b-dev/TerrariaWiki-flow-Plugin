@@ -39,12 +39,11 @@ namespace Flow.Launcher.Plugin.TerrariaWiki
             // Make request to terraria wiki api with the query the user has put in
             using (var httpClient = new HttpClient())
             {
-                // Set headers to mimic a browser request
+                // Set headers to mimic a browser request and identify the application
                 httpClient.DefaultRequestHeaders.UserAgent.ParseAdd(
-                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-                    "AppleWebKit/537.36 (KHTML, like Gecko) " +
-                    "Chrome/127.0.0.0 Safari/537.36"
+                    "TerrariaWikiFlowPlugin (https://github.com/jonesy-b-dev/TerrariaWiki-flow-Plugin)"
                 );
+                httpClient.DefaultRequestHeaders.Referrer = new System.Uri("https://terraria.wiki.gg/");
                 jsonResult = await httpClient.GetStringAsync(QueryUrl + query.Search);
             }
 
